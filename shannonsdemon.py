@@ -6,13 +6,13 @@ timeconst = 1579349682.0
 infos = {}
 lastTrades = [None]*3
 lastTradesCount = -1
-specialOrders = True
+specialOrders = False
 tf = "%a, %d %b %Y %H:%M:%S"
 filename = 'config.json'
 circuitbreaker = True
 initialized = True
-firstrun = True
-
+sendDummy = True
+alreadyProcessed = True
 #read config file
 try:
     with open(filename) as json_data_file:
@@ -20,12 +20,32 @@ try:
 except Exception as e:
     print(time.strftime(tf, time.gmtime()), '   not able to read config file, please fix and restart: ', e)
     initialized = False
+
+#check config file
+try:
+    tests = config['publickey'] + config['secretkey']
+    wait_interval_sec = float(config['sleep_seconds_after_cancel_orders'])
+    quote_interval_sec = float(config['sleep_seconds_after_send_orders'])
+    rebalance_interval_sec = float(config['rebalance_interval_sec'])
+    for i in range(len(config['pairs'])):
+        key = config['pairs'][i]['market']
+        lastId = int(config['pairs'][i]['fromId'])
+        quote_asset_qty = float(config['pairs'][i]['quote_asset_qty'])
+        base_asset_qty = float(config['pairs'][i]['base_asset_qty'])
+        buy_percentage = float(config['pairs'][i]['buy_percentage'])
+        sell_percentage = float(config['pairs'][i]['sell_percentage'])
+except Exception as e:
+    print(time.strftime(tf, time.gmtime()),'   error in config file', e)
+    initialized = False
+    time.sleep(10)
+
 #init binance client
 try:
     client = Client(config['publickey'], config['secretkey'])
 except Exception as e:
     print(time.strftime(tf, time.gmtime()), '   not able to init client (internet connection?), please fix and restart: ', e)
     initialized = False
+    time.sleep(10)
 
 def getMarketsInfo():
     global circuitbreaker
@@ -177,7 +197,7 @@ def processAllTrades():
         circuitbreaker = False
 
 def sendOrders():
-    global config,initialized,firstrun
+    global config,initialized,sendDummy
 
     try:
         for i in range(len(config['pairs'])):
@@ -227,13 +247,13 @@ def sendOrders():
             myaskp = askpercentage * fairp
 
 
-            if float(mid) < 0.99 * mybidp or float(mid) > 1.01 * myaskp:
-                circuitbreaker = False
-                print(time.strftime(tf, time.gmtime()), '   please inspect quantities config file as bot hits market')
-                if firstrun:
-                    initialized = False
-            else:
-                circuitbreaker = True
+            #if float(mid) < 0.99 * mybidp or float(mid) > 1.01 * myaskp:
+            #    circuitbreaker = False
+            #    print(time.strftime(tf, time.gmtime()), '   please inspect quantities config file as bot hits market')
+            #    if firstrun:
+            #        initialized = False
+            #else:
+            #    circuitbreaker = True
 
 
             mybidq = stepsizeformat.format((0.5 * (totcoin * mybidp + totcash) - totcoin * mybidp) * 1.0 / mybidp)
@@ -242,7 +262,7 @@ def sendOrders():
             #start buy order
             orderbidp = ticksizeformat.format(min(mybidp,bidp+ticksize))
             orderbidq = mybidq
-            if config['state'] == 'TRADE' and circuitbreaker:
+            if not sendDummy and circuitbreaker:
                 print(time.strftime(tf, time.gmtime()), '   send buy  order: ', '{0: <9}'.format(key),' p: ', '{0: <9}'.format(str(orderbidp)), ' q: ', '{0: <8}'.format(str(mybidq)), ' l:' , '{0: <9}'.format(str(mid)) , ' b:' , awayFromBuy)
 
                 myId = 'SHN-B-' + key + '-' + str(int(time.time() - timeconst))
@@ -256,7 +276,7 @@ def sendOrders():
             #start sell order
             orderaskp = ticksizeformat.format(max(myaskp,askp-ticksize))
             orderaskq = myaskq
-            if config['state'] == 'TRADE' and circuitbreaker:
+            if not sendDummy and circuitbreaker:
                 print(time.strftime(tf, time.gmtime()), '   send sell order: ', '{0: <9}'.format(key),' p: ', '{0: <9}'.format(str(orderaskp)), ' q: ', '{0: <8}'.format(str(myaskq)), ' l:' , '{0: <9}'.format(str(mid)), ' s:' , awayFromSell)
 
                 myId = 'SHN-S-' + key + '-' + str(int(time.time() - timeconst))
@@ -266,15 +286,10 @@ def sendOrders():
                     print(time.strftime(tf, time.gmtime()), '   not able to send sell order for: ',key, ' because: ',e)
             else:
                 print(time.strftime(tf, time.gmtime()), '   send DUMMY sell order: ', '{0: <9}'.format(key),' p: ', '{0: <9}'.format(str(orderaskp)), ' q: ', '{0: <8}'.format(str(myaskq)), ' l:' , '{0: <9}'.format(str(mid)), ' s:' , awayFromSell)
-
+        sendDummy = False
     except Exception as e:
         print(time.strftime(tf, time.gmtime()), '    not able to send orders ',e)
 
-    firstrun = False
-
-wait_interval_sec = float(config['sleep_seconds_after_cancel_orders'])
-quote_interval_sec = float(config['sleep_seconds_after_send_orders'])
-rebalance_interval_sec = float(config['rebalance_interval_sec'])
 lastUpdate = time.time()
 
 if initialized:
@@ -286,7 +301,30 @@ if initialized:
     print(time.strftime(tf, time.gmtime()), '   start cancel all orders')
     cancelAllOrders()
     print(time.strftime(tf, time.gmtime()), '   end cancel all orders')
+    print(time.strftime(tf, time.gmtime()), '   sleep for: ', 30, ' seconds')
+    time.sleep(30)
+
+    print(time.strftime(tf, time.gmtime()), '   start processing trades')
+    processAllTrades()
+    print(time.strftime(tf, time.gmtime()), '   end processing trades')
+    print(time.strftime(tf, time.gmtime()), '   sleep for: ', 5, ' seconds')
+    time.sleep(5)
     rebalanceUpdate = time.time() #if start with rebalance:   - rebalance_interval_sec -1.0
+    alreadyProcessed = True
+
+    print(time.strftime(tf, time.gmtime()), '   start dummy orders')
+    specialOrders = False
+    sendDummy = True
+    sendOrders()
+    print(time.strftime(tf, time.gmtime()), '   end dummy orders')
+    print(time.strftime(tf, time.gmtime()), '   please check dummy orders')
+    print(time.strftime(tf, time.gmtime()), '   b: and s: show how far the current price moved away from equilibrium price')
+    print(time.strftime(tf, time.gmtime()), '   if too far away orders might be too big and erroneous, if so please:')
+    print(time.strftime(tf, time.gmtime()), '   1: kill program')
+    print(time.strftime(tf, time.gmtime()), '   2: adjust quantities in config file for market accordingly')
+    print(time.strftime(tf, time.gmtime()), '   3: restart program')
+    show = time.strftime(tf, time.gmtime()) + '    press any key to continue if above dummy orders are ok (be very careful here)'
+    var = input(show)
 
 while True and initialized:
 
@@ -294,9 +332,12 @@ while True and initialized:
         print(time.strftime(tf, time.gmtime()), '   circuitbreaker false, do not send orders')
     else:
 
-        print(time.strftime(tf, time.gmtime()), '   start processing trades')
-        processAllTrades()
-        print(time.strftime(tf, time.gmtime()), '   end processing trades')
+        if not alreadyProcessed:
+            print(time.strftime(tf, time.gmtime()), '   start processing trades')
+            processAllTrades()
+            print(time.strftime(tf, time.gmtime()), '   end processing trades')
+        else:
+            alreadyProcessed = False
 
         #send orders special or normal
         lastUpdate = time.time()
@@ -327,6 +368,3 @@ while True and initialized:
 
     print(time.strftime(tf, time.gmtime()), '   sleep for: ' , wait_interval_sec , ' seconds')
     time.sleep(wait_interval_sec)
-
-
-
