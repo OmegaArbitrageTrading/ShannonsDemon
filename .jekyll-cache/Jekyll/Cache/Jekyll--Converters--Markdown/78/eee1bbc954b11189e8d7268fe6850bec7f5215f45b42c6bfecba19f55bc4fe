@@ -1,4 +1,4 @@
-I"4<p align="justify">
+I"�<p align="justify">
 Welcome to the homepage of Shannon's Demon. The trading bot that grows the value of your crypto portfolio exponentially by repeatedly rebalancing your portfolio. For more information about the bot's trading strategy, please check: <a href="https://thepfengineer.com/2016/04/25/rebalancing-with-shannons-demon/">rebalancing-with-shannons-demon</a>. Get your bot running in less than 5 minutes.</p>
 
 <p><img src="bot.jpg" alt="shannonsdemon.exe" /></p>
@@ -16,14 +16,14 @@ At time T2 the price increases back to 20 BNBUSDT. Total value is now equal to 1
 </p>
 <p>T2: 510.42 USDT + 25.52 BNB x 20 BNBUSDT = 1020.8 USDT.</p>
 <p align="justify">
-As you can see in the above example the bot generated a small retrun of approximately 2%. Over time the bot generates many of these small returns which are immediately re-invested, hence the exponential growth. The example shows how the value of your portfolio grows from heavy price fluctuations. Ideal for the volatile crypto currency markets.
+As you can see in the above example the bot generated a small retrun of approximately 2%. Over time the bot generates many of these small returns which are immediately re-invested, hence the exponential growth. The example shows how the value of your portfolio grows from heavy price fluctuations. This makes the bot ideal for the volatile crypto currency markets.
 </p>
 
 <p><img src="configjson.jpg" alt="config.json" /></p>
 
 <p align="justify">
 <br />
-<i><b>How the bot works...<b>&lt;/i&gt;<br /><br />
+<i><b>How the bot works...</b></i><br /><br />
 The example above is a simplified explanation of how the bot actually works. The following steps are repeated over and over again until the bot is killed. The executable is started by double clicking it. 
 <br /><br />   
 1. Cancel all orders. Only orders that were send by your bot are cancelled. Sleep for <b>sleep_seconds_after_cancel_orders</b> seconds.<br /><br /> 
@@ -33,30 +33,29 @@ Regular orders have a price equal to the equilibrium price multiplied by <b>buy_
 <br /><br />
 Special orders make the bot rebalance at the current mid (l:) but only if the mid is more than 5% away from the equilibrium price. In the above bot picture you can see that market BNBUSDT is -10.2% (b: or s:) away from equilibrium price. Hence the bot dimes the best bid at 22.2151. The sell order becomes a regular order. Quantities (q:) are calculated like the example given above.
 <br /><br />
-Before the bot follows the above steps, the bot shows DUMMY orders and asks if you want to continue. This way you can check prices. Usually when the price move (b: or s:) shows a large percentage, an error in base and quote quantities or fromId has been made.&lt;/p&gt;
-* * *
+Before the bot follows the above steps, the bot shows DUMMY orders and asks if you want to continue. This way you can check prices. Usually when the price move (b: or s:) shows a large percentage, an error in base and quote quantities or fromId has been made.</p>
+<hr />
 <p align="justify">
-<i><b>Prerequisites...</b><br /><br /></i>Download config.json and shannonsdemon.py or shannonsdemon.exe. The config file needs to be stored in the same folder as the python script or the executable. We are aware that running an executable without knowing its publishers is dangerous. You have to trust us or run the python script. For running the python script you have to install python first. For instructions look here: <a href="https://www.python.org/about/gettingstarted/">getting started with python</a> You have to install python-binance module for the bot to work.<br /><br />
-For now only Binance is supported. Open a new account on <a href="https://www.binance.com/nl/register?ref=R9NNDYS8">Binance.</a> Please use this link for a 20% discount in trading fees of which half is send to us. Obviously you can also use an existing account.<br /><br />
+<i><b>Prerequisites...</b><br /><br /></i>Download config.json and shannonsdemon.py or shannonsdemon.exe. The config file needs to be stored in the same folder as the python script or the executable. We are aware that running an executable without knowing its publishers is dangerous. You have to trust us or run the python script. For running the python script you have to install python first. For instructions look here: <a href="https://www.python.org/about/gettingstarted/">getting started with python</a>. You also have to install <a href="https://github.com/sammchardy/python-binance">python-binance</a> module for the bot to work.<br /><br />
+For now only Binance is supported. Open a new account here: <a href="https://www.binance.com/nl/register?ref=R9NNDYS8">Binance.</a> Please use this link for a 20% discount in trading fees of which half is send to us. Obviously you can also use an existing account.<br /><br />
 <a href="https://www.binance.com/en/support/articles/360002502072">Create api keys</a> and make sure to have trading option enabled and <i>withdrawal option disabled</i>. Put the api keys in the config file<br /><br />
 Fund your account, make sure you have the right quantities for every market you want to trade and set all other parameters in the config.json file using for example <a href="https://code.visualstudio.com/">Visual Studio Code</a>.</p>
-* * *
-<i><b>Debugging...</b><br /><br /></i>
-The most common error that users get when first running their bot, is that their clock is out of sync with the Binance server's clock. Please sync your system's or router's clock.
-![time not synced](timesync.jpg)
+<hr />
+<p><i><b>Debugging…</b><br /><br /></i>
+The most common error that users get when first running their bot, is that their clock is out of sync with Binance server’s clock. Please sync your system’s or router’s clock.
+<img src="timesync.jpg" alt="time not synced" />
 <br /><br />
-For other errors please look in the <a href="https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md">Binance rest-api documentation</a> or Samm Chardy's <a href="https://python-binance.readthedocs.io/en/latest/">python-binance library</a> or ask a question on our discord channel.
-* * *
-Contact: <a href="mailto:OmegaArbitrageTrading@outlook.com"><b>OmegaArbitrageTrading@outlook.com</b></a> or <a href="https://discord.gg/mnkE4Xb"><b>https://discord.gg/mnkE4Xb</b>.</a>
-* * *
-Donate:
+For other errors please look in the <a href="https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md">Binance rest-api documentation</a> or Samm Chardy’s <a href="https://python-binance.readthedocs.io/en/latest/">python-binance library</a> or ask a question on our discord channel.</p>
+<hr />
+<p>Contact: <a href="mailto:OmegaArbitrageTrading@outlook.com"><b>OmegaArbitrageTrading@outlook.com</b></a>, <a href="https://discord.gg/mnkE4Xb"><b>https://discord.gg/mnkE4Xb</b> or <a href="https://twitter.com/OAT68667907"><b>Twitter</b></a>.</a></p>
+<hr />
+<p>Donate:</p>
 
-ETH:   0x13d55ca40ca3d008b7b0a0118d295f510410b60f
+<p>ETH:   0x13d55ca40ca3d008b7b0a0118d295f510410b60f</p>
 
-USDT:  0x13d55ca40ca3d008b7b0a0118d295f510410b60f
+<p>USDT:  0x13d55ca40ca3d008b7b0a0118d295f510410b60f</p>
 
-BTC:   1Fxyo5jfMxkDgGDjiAU9KE7svEG6Drriyv
+<p>BTC:   1Fxyo5jfMxkDgGDjiAU9KE7svEG6Drriyv</p>
 
-LTC:   Lbqi2McxsrhM2NR3FtgiMiF2JxswFBsmMX
-</b></b></i></p>
+<p>LTC:   Lbqi2McxsrhM2NR3FtgiMiF2JxswFBsmMX</p>
 :ET
