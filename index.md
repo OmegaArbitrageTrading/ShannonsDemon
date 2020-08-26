@@ -49,8 +49,12 @@ The most common error that users get when first running their bot, is that their
 ![time not synced](timesync.jpg)
 <br><br>
 For other errors please look in the <a href="https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md">Binance rest-api documentation</a> or Samm Chardy's <a href="https://python-binance.readthedocs.io/en/latest/">python-binance library</a> or ask a question on our discord channel.
+* * * 
+<i><b>Follow our trades...</b><br><br></i>
+To follow the trades made by our bot, please follow us on <a href="https://twitter.com/OAT68667907"><b>Twitter</b><br><br></a>
+![twitter feed](twitterfeed.jpg)
 * * *
-Contact: <a href="mailto:OmegaArbitrageTrading@outlook.com"><b>OmegaArbitrageTrading@outlook.com</b></a>, <a href="https://discord.gg/mnkE4Xb"><b>https://discord.gg/mnkE4Xb</b></a> or follow us on: <a href="https://twitter.com/OAT68667907"><b>Twitter</b></a>.
+Contact: <a href="mailto:OmegaArbitrageTrading@outlook.com"><b>OmegaArbitrageTrading@outlook.com</b></a> or <a href="https://discord.gg/mnkE4Xb"><b>https://discord.gg/mnkE4Xb</b></a>
 * * *
 Donate:
 

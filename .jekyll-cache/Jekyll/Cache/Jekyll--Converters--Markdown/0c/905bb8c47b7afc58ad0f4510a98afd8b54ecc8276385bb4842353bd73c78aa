@@ -1,4 +1,4 @@
-I"ö<p align="justify">
+I"k<p align="justify">
 Welcome to the homepage of Shannon's Demon. The trading bot that grows the value of your crypto portfolio exponentially by repeatedly rebalancing your portfolio. For more information about the bot's trading strategy, please check: <a href="https://thepfengineer.com/2016/04/25/rebalancing-with-shannons-demon/">rebalancing-with-shannons-demon</a>. Get your bot running in less than 5 minutes.</p>
 
 <p><img src="bot.jpg" alt="shannonsdemon.exe" /></p>
@@ -35,6 +35,9 @@ Special orders make the bot rebalance at the current mid (l:) but only if the mi
 <br /><br />
 Before the bot follows the above steps, the bot shows DUMMY orders and asks if you want to continue. This way you can check prices. Usually when the price move (b: or s:) shows a large percentage, an error in base and quote quantities or fromId has been made.</p>
 <hr />
+<p>To follow the trades made by our bot, please follow us on <a href="https://twitter.com/OAT68667907"><b>Twitter</b></a>
+<img src="twitterfeed.jpg" alt="twitter feed" /></p>
+<hr />
 <p align="justify">
 <i><b>Prerequisites...</b><br /><br /></i>Download config.json and shannonsdemon.py or shannonsdemon.exe. The config file needs to be stored in the same folder as the python script or the executable. We are aware that running an executable without knowing its publishers is dangerous. You have to trust us or run the python script. For running the python script you have to install python first. For instructions look here: <a href="https://www.python.org/about/gettingstarted/">getting started with python</a>. You also have to install <a href="https://github.com/sammchardy/python-binance">python-binance</a> module for the bot to work.<br /><br />
 For now only Binance is supported. Open a new account here: <a href="https://www.binance.com/nl/register?ref=R9NNDYS8">Binance.</a> Please use this link for a 20% discount in trading fees of which half is send to us. Obviously you can also use an existing account.<br /><br />
@@ -47,7 +50,7 @@ The most common error that users get when first running their bot, is that their
 <br /><br />
 For other errors please look in the <a href="https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md">Binance rest-api documentation</a> or Samm Chardyâ€™s <a href="https://python-binance.readthedocs.io/en/latest/">python-binance library</a> or ask a question on our discord channel.</p>
 <hr />
-<p>Contact: <a href="mailto:OmegaArbitrageTrading@outlook.com"><b>OmegaArbitrageTrading@outlook.com</b></a>, <a href="https://discord.gg/mnkE4Xb"><b>https://discord.gg/mnkE4Xb</b> or <a href="https://twitter.com/OAT68667907"><b>Twitter</b></a>.</a></p>
+<p>Contact: <a href="mailto:OmegaArbitrageTrading@outlook.com"><b>OmegaArbitrageTrading@outlook.com</b></a>, <a href="https://discord.gg/mnkE4Xb"><b>https://discord.gg/mnkE4Xb</b></a></p>
 <hr />
 <p>Donate:</p>
 

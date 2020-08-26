@@ -1,4 +1,4 @@
-I"<p align="justify">
+I"k<p align="justify">
 Welcome to the homepage of Shannon's Demon. The trading bot that grows the value of your crypto portfolio exponentially by repeatedly rebalancing your portfolio. For more information about the bot's trading strategy, please check: <a href="https://thepfengineer.com/2016/04/25/rebalancing-with-shannons-demon/">rebalancing-with-shannons-demon</a>. Get your bot running in less than 5 minutes.</p>
 
 <p><img src="bot.jpg" alt="shannonsdemon.exe" /></p>
@@ -47,7 +47,10 @@ The most common error that users get when first running their bot, is that their
 <br /><br />
 For other errors please look in the <a href="https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md">Binance rest-api documentation</a> or Samm Chardy’s <a href="https://python-binance.readthedocs.io/en/latest/">python-binance library</a> or ask a question on our discord channel.</p>
 <hr />
-<p>Contact: <a href="mailto:OmegaArbitrageTrading@outlook.com"><b>OmegaArbitrageTrading@outlook.com</b></a>, <a href="https://discord.gg/mnkE4Xb"><b>https://discord.gg/mnkE4Xb</b></a> or follow us on: <a href="https://twitter.com/OAT68667907"><b>Twitter</b></a>.</p>
+<p>Contact: <a href="mailto:OmegaArbitrageTrading@outlook.com"><b>OmegaArbitrageTrading@outlook.com</b></a>, <a href="https://discord.gg/mnkE4Xb"><b>https://discord.gg/mnkE4Xb</b></a></p>
+<hr />
+<p>To follow the trades made by our bot, please follow us on <a href="https://twitter.com/OAT68667907"><b>Twitter</b></a>
+<img src="twitterfeed.jpg" alt="twitter feed" /></p>
 <hr />
 <p>Donate:</p>
 
