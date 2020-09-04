@@ -9,7 +9,8 @@ lastTradesCount = -1
 specialOrders = False
 tf = "%a, %d %b %Y %H:%M:%S"
 filename = 'config.json'
-circuitbreaker = True
+circuitbreakerCancelOrders = True
+circuitbreakerProcessTrades = True
 initialized = True
 sendDummy = True
 alreadyProcessed = True
@@ -52,70 +53,73 @@ def getMarketsInfo():
     try:
         info = client.get_exchange_info()
     except Exception as e:
-        print(time.strftime(tf, time.gmtime()), '    circuitbreaker set to false, cant get market info from exchange: ', e)
+        print(time.strftime(tf, time.gmtime()), '   circuitbreaker set to false, cant get market info from exchange: ', e)
         circuitbreaker = False
 
     formats = {}
-    for i in range(len(config['pairs'])):
-        key = config['pairs'][i]['market']
-        format = {}
+    try:
+        for i in range(len(config['pairs'])):
+            key = config['pairs'][i]['market']
+            format = {}
 
-        for market in info['symbols']:
-            if market['symbol'] == key:
+            for market in info['symbols']:
+                if market['symbol'] == key:
 
-                for filter in market['filters']:
-                    if filter['filterType'] == 'LOT_SIZE':
-                        stepSize = float(filter['stepSize'])
-                        t = float(filter['stepSize'])
-                        if t >= 1.0:
-                            stepSizesFormat ='{:.0f}'
-                        elif t == 0.1:
-                            stepSizesFormat = '{:.1f}'
-                        elif t == 0.01:
-                            stepSizesFormat = '{:.2f}'
-                        elif t == 0.001:
-                            stepSizesFormat = '{:.3f}'
-                        elif t == 0.0001:
-                            stepSizesFormat = '{:.4f}'
-                        elif t == 0.00001:
-                            stepSizesFormat = '{:.5f}'
-                        elif t == 0.000001:
-                            stepSizesFormat = '{:.6f}'
-                        elif t == 0.0000001:
-                            stepSizesFormat = '{:.7f}'
-                        elif t == 0.00000001:
-                            stepSizesFormat = '{:.8f}'
+                    for filter in market['filters']:
+                        if filter['filterType'] == 'LOT_SIZE':
+                            stepSize = float(filter['stepSize'])
+                            t = float(filter['stepSize'])
+                            if t >= 1.0:
+                                stepSizesFormat ='{:.0f}'
+                            elif t == 0.1:
+                                stepSizesFormat = '{:.1f}'
+                            elif t == 0.01:
+                                stepSizesFormat = '{:.2f}'
+                            elif t == 0.001:
+                                stepSizesFormat = '{:.3f}'
+                            elif t == 0.0001:
+                                stepSizesFormat = '{:.4f}'
+                            elif t == 0.00001:
+                                stepSizesFormat = '{:.5f}'
+                            elif t == 0.000001:
+                                stepSizesFormat = '{:.6f}'
+                            elif t == 0.0000001:
+                                stepSizesFormat = '{:.7f}'
+                            elif t == 0.00000001:
+                                stepSizesFormat = '{:.8f}'
 
-                    if filter['filterType'] == 'PRICE_FILTER':
-                        tickSize = (float(filter['tickSize']))
-                        t = float(filter['tickSize'])
-                        if t >= 1.0:
-                            tickSizesFormat = '{:.0f}'
-                        elif t == 0.1:
-                            tickSizesFormat = '{:.1f}'
-                        elif t == 0.01:
-                            tickSizesFormat = '{:.2f}'
-                        elif t == 0.001:
-                            tickSizesFormat = '{:.3f}'
-                        elif t == 0.0001:
-                            tickSizesFormat = '{:.4f}'
-                        elif t == 0.00001:
-                            tickSizesFormat = '{:.5f}'
-                        elif t == 0.000001:
-                            tickSizesFormat = '{:.6f}'
-                        elif t == 0.0000001:
-                            tickSizesFormat = '{:.7f}'
-                        elif t == 0.00000001:
-                            tickSizesFormat = '{:.8f}'
+                        if filter['filterType'] == 'PRICE_FILTER':
+                            tickSize = (float(filter['tickSize']))
+                            t = float(filter['tickSize'])
+                            if t >= 1.0:
+                                tickSizesFormat = '{:.0f}'
+                            elif t == 0.1:
+                                tickSizesFormat = '{:.1f}'
+                            elif t == 0.01:
+                                tickSizesFormat = '{:.2f}'
+                            elif t == 0.001:
+                                tickSizesFormat = '{:.3f}'
+                            elif t == 0.0001:
+                                tickSizesFormat = '{:.4f}'
+                            elif t == 0.00001:
+                                tickSizesFormat = '{:.5f}'
+                            elif t == 0.000001:
+                                tickSizesFormat = '{:.6f}'
+                            elif t == 0.0000001:
+                                tickSizesFormat = '{:.7f}'
+                            elif t == 0.00000001:
+                                tickSizesFormat = '{:.8f}'
 
 
-        format['tickSizeFormat'] = tickSizesFormat
-        format['stepSizeFormat'] = stepSizesFormat
-        format['tickSize'] = tickSize
-        format['stepSize'] = stepSize
+            format['tickSizeFormat'] = tickSizesFormat
+            format['stepSizeFormat'] = stepSizesFormat
+            format['tickSize'] = tickSize
+            format['stepSize'] = stepSize
 
-        formats[key] = format
-
+            formats[key] = format
+    except Exception as e:
+        print(time.strftime(tf, time.gmtime()), '   circuitbreaker set to false, invalid symbol (market) in config file hence: ', e)
+        circuitbreaker = False
     return formats
 
 def writeConfig():
@@ -124,12 +128,12 @@ def writeConfig():
         with open(filename, 'w') as outfile:
             json.dump(config, outfile)
     except Exception as e:
-        print(time.strftime(tf, time.gmtime()), '    circuitbreaker set to false, cant write to file: ', e)
+        print(time.strftime(tf, time.gmtime()), '   circuitbreaker set to false, cant write to file: ', e)
         circuitbreaker = False
 
 def cancelAllOrders():
-    global circuitbreaker
-    circuitbreaker = True
+    global circuitbreakerCancelOrders
+    circuitbreakerCancelOrders = True
     try:
         for i in range(len(config['pairs'])):
             key = config['pairs'][i]['market']
@@ -142,13 +146,13 @@ def cancelAllOrders():
 
     except Exception as e:
         print(time.strftime(tf, time.gmtime()), '   circuitbreaker set to false, cannot cancel all orders: ', e)
-        circuitbreaker = False
+        circuitbreakerCancelOrders = False
         time.sleep(5.0)
 
 def processAllTrades():
 
-    global config, lastTrades, lastTradesCount, ordersAllowed, circuitbreaker
-    circuitbreaker = True
+    global config, lastTrades, lastTradesCount, ordersAllowed, circuitbreakerProcessTrades
+    circuitbreakerProcessTrades = True
 
     try:
         for i in range(len(config['pairs'])):
@@ -194,7 +198,7 @@ def processAllTrades():
             time.sleep(1.1)
     except Exception as e:
         print(time.strftime(tf, time.gmtime()), '   circuitbreaker set to fasle, not able to process all trades ',e)
-        circuitbreaker = False
+        circuitbreakerProcessTrades = False
 
 def sendOrders():
     global config,initialized,sendDummy
@@ -328,7 +332,7 @@ if initialized:
 
 while True and initialized:
 
-    if not circuitbreaker:
+    if not circuitbreakerProcessTrades or not circuitbreakerCancelOrders:
         print(time.strftime(tf, time.gmtime()), '   circuitbreaker false, do not send orders')
     else:
 
